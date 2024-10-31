@@ -1,5 +1,4 @@
-﻿@page "/counter/{initialCount:int?}"
-@page "/counter2"
+﻿@page "/counter"
 
 @rendermode InteractiveServer
 
@@ -10,23 +9,35 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<MyButton OnClick="IncrementCount" class="btn btn-success">MyButton</MyButton>
 
-<p>InitialCount=@InitialCount</p>
+<button class="btn btn-primary" @onmouseover="IncrementCount">Pass mouse here!</button>
+
+<div class="mt-3">
+    <input @oninput="OnInput">
+    <p class="mt-1">@text</p>
+</div>
+
+<div style="background-color:lightblue" @onmouseover="MouseOver" @onmouseout="MouseOut">@divText</div>
+
+<div class="mt-3">
+    <input>
+    <button>Clear</button>
+    <p>@text</p>
+</div>
 
 @code {
     private int currentCount = 0;
+    string text = "";
+    string divText = "Mouse Out";
 
-    protected override void OnInitialized()
-    {
-        currentCount = InitialCount;
-    }
+    private void IncrementCount(MouseEventArgs e) => currentCount++;
 
-    [Parameter]
-    public int InitialCount { get; set; }
+    private void OnInput(ChangeEventArgs e) => text = (string)e.Value!;
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
+    private void MouseOver(MouseEventArgs e) => divText = "Mouse Over";
+
+    private void MouseOut(MouseEventArgs e) => divText = "Mouse Out";
+    
+
 }
-
